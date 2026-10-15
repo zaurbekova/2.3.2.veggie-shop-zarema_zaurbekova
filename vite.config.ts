@@ -4,6 +4,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [react()],
+  base: '/2.3.2.veggie-shop-zarema_zaurbekova/',
   test: {
     globals: true,
     environment: 'jsdom',
