@@ -8,7 +8,7 @@ import {
   Box,
   Center,
 } from '@mantine/core';
-import { IconShoppingCartOff, IconMinus, IconPlus, IconTrash } from '@tabler/icons-react';
+import { IconShoppingCartOff, IconMinus, IconPlus } from '@tabler/icons-react';
 import { useCart } from '../context/CartContext';
 import { getWeight } from '../utils/weight';
 
@@ -65,7 +65,7 @@ export const CartPopup = () => {
                   $ {item.price}
                 </Text>
               </Box>
-              <Group gap={4} align="center" wrap="nowrap">
+              <Group gap={6} align="center" wrap="nowrap">
                 <ActionIcon
                   variant="default"
                   size={28}
@@ -90,17 +90,6 @@ export const CartPopup = () => {
                   styles={{ root: { backgroundColor: '#F1F3F5', border: 'none', color: '#555' } }}
                 >
                   <IconPlus size={14} />
-                </ActionIcon>
-                <ActionIcon
-                  variant="subtle"
-                  color="red"
-                  size={28}
-                  radius="md"
-                  ml={4}
-                  aria-label={`Удалить ${cleanName}`}
-                  onClick={() => dispatch({ type: 'REMOVE', id: item.id })}
-                >
-                  <IconTrash size={16} />
                 </ActionIcon>
               </Group>
             </Group>

@@ -35,8 +35,6 @@ export const ProductCard = ({ product }: Props) => {
     <Card
       padding={0}
       radius="lg"
-      w={302}
-      h={414}
       style={{
         background: 'white',
         boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
@@ -66,7 +64,7 @@ export const ProductCard = ({ product }: Props) => {
 
       <Box p="md" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         
-        <Group justify="space-between" align="center" w={270} h={30} wrap="nowrap" mx="auto">
+        <Group justify="space-between" align="center" wrap="nowrap">
           <Group gap={8} align="baseline" wrap="nowrap">
             <Text fw={600} size="md" c="#222" style={{ lineHeight: 1 }}>
               {cleanName}
@@ -76,21 +74,14 @@ export const ProductCard = ({ product }: Props) => {
             </Text>
           </Group>
 
-          <Group
-            gap={0}
-            style={{
-              border: '1px solid #E8E8E8',
-              borderRadius: 8,
-              overflow: 'hidden',
-              height: 30,
-            }}
-          >
+          <Group gap={6} align="center" wrap="nowrap">
             <ActionIcon
-              variant="transparent"
-              color="gray"
-              size={30}
+              variant="default"
+              size={32}
+              radius="md"
               aria-label="Уменьшить количество"
               onClick={() => handlersRef.current?.decrement()}
+              styles={{ root: { backgroundColor: '#F1F3F5', border: 'none', color: '#555', fontWeight: 600 } }}
             >
               <IconMinus size={16} />
             </ActionIcon>
@@ -104,39 +95,37 @@ export const ProductCard = ({ product }: Props) => {
               aria-label="Количество"
               styles={{
                 input: {
-                  width: 30,
-                  height: 30,
+                  width: 20,
                   textAlign: 'center',
                   border: 'none',
-                  borderLeft: '1px solid #E8E8E8',
-                  borderRight: '1px solid #E8E8E8',
                   padding: 0,
                   fontWeight: 600,
                   backgroundColor: 'transparent',
-                  fontSize: 14,
+                  fontSize: 16,
                 },
               }}
             />
             <ActionIcon
-              variant="transparent"
-              color="gray"
-              size={30}
+              variant="default"
+              size={32}
+              radius="md"
               aria-label="Увеличить количество"
               onClick={() => handlersRef.current?.increment()}
+              styles={{ root: { backgroundColor: '#F1F3F5', border: 'none', color: '#555', fontWeight: 600 } }}
             >
               <IconPlus size={16} />
             </ActionIcon>
           </Group>
         </Group>
 
-        <Group justify="space-between" align="center" w={270} h={44} wrap="nowrap" mx="auto">
-          <Text fw={700} size="lg" c="#222" style={{ fontSize: 20 }}>
+        <Group justify="space-between" align="center" wrap="nowrap" mt="md">
+          <Text fw={700} size="lg" c="#222" style={{ fontSize: 20, minWidth: 60 }}>
             $ {product.price}
           </Text>
           <Button
             radius="md"
             h={44}
-            style={{ flexGrow: 1, marginLeft: 16 }}
+            style={{ flexGrow: 1 }}
             color="green"
             variant="light"
             onClick={handleAdd}
