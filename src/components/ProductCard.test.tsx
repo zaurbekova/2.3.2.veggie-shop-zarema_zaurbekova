@@ -25,18 +25,14 @@ const renderCard = () =>
 describe('ProductCard', () => {
   it('отображает название, вес и цену товара', () => {
     renderCard();
-
     expect(screen.getByText('Broccoli')).toBeInTheDocument();
     expect(screen.getByText('1 kg')).toBeInTheDocument();
-    expect(screen.getByText('$120')).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /add to cart/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByText('$ 120')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /add to cart/i })).toBeInTheDocument();
   });
 
   it('показывает изображение товара', () => {
     renderCard();
-
     const image = screen.getByRole('img', { name: 'Broccoli' });
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute('src', mockProduct.image);
@@ -44,12 +40,8 @@ describe('ProductCard', () => {
 
   it('увеличивает количество при клике на "+"', async () => {
     renderCard();
-
-    const plusButton = screen.getByRole('button', {
-      name: /увеличить количество/i,
-    });
+    const plusButton = screen.getByRole('button', { name: /увеличить количество/i });
     const input = screen.getByRole('textbox') as HTMLInputElement;
-
     expect(input.value).toBe('1');
     await userEvent.click(plusButton);
     expect(input.value).toBe('2');
@@ -57,48 +49,32 @@ describe('ProductCard', () => {
 
   it('уменьшает количество при клике на "-"', async () => {
     renderCard();
-
-    const plusButton = screen.getByRole('button', {
-      name: /увеличить количество/i,
-    });
-    const minusButton = screen.getByRole('button', {
-      name: /уменьшить количество/i,
-    });
+    const plusButton = screen.getByRole('button', { name: /увеличить количество/i });
+    const minusButton = screen.getByRole('button', { name: /уменьшить количество/i });
     const input = screen.getByRole('textbox') as HTMLInputElement;
-
     await userEvent.click(plusButton);
     await userEvent.click(plusButton);
     expect(input.value).toBe('3');
-
     await userEvent.click(minusButton);
     expect(input.value).toBe('2');
   });
 
   it('не уменьшает количество ниже 1', async () => {
     renderCard();
-
-    const minusButton = screen.getByRole('button', {
-      name: /уменьшить количество/i,
-    });
+    const minusButton = screen.getByRole('button', { name: /уменьшить количество/i });
     const input = screen.getByRole('textbox') as HTMLInputElement;
-
     await userEvent.click(minusButton);
     expect(input.value).toBe('1');
   });
 
   it('сбрасывает количество на 1 после "Add to cart"', async () => {
     renderCard();
-
-    const plusButton = screen.getByRole('button', {
-      name: /увеличить количество/i,
-    });
+    const plusButton = screen.getByRole('button', { name: /увеличить количество/i });
     const addButton = screen.getByRole('button', { name: /add to cart/i });
     const input = screen.getByRole('textbox') as HTMLInputElement;
-
     await userEvent.click(plusButton);
     await userEvent.click(plusButton);
     expect(input.value).toBe('3');
-
     await userEvent.click(addButton);
     expect(input.value).toBe('1');
   });

@@ -8,7 +8,7 @@ import {
   Box,
   Center,
 } from '@mantine/core';
-import { IconShoppingCartOff } from '@tabler/icons-react';
+import { IconShoppingCartOff, IconMinus, IconPlus, IconTrash } from '@tabler/icons-react';
 import { useCart } from '../context/CartContext';
 import { getWeight } from '../utils/weight';
 
@@ -28,6 +28,14 @@ export const CartPopup = () => {
     );
   }
 
+  const handleDecrement = (id: number, currentQuantity: number) => {
+    if (currentQuantity <= 1) {
+      dispatch({ type: 'REMOVE', id });
+    } else {
+      dispatch({ type: 'UPDATE_QTY', id, quantity: currentQuantity - 1 });
+    }
+  };
+
   return (
     <Stack gap="md">
       {state.items.map((item, idx) => (
@@ -46,38 +54,24 @@ export const CartPopup = () => {
                 <Text fw={600} size="sm" c="#222" truncate>
                   {item.name}
                 </Text>
-                <Text size="xs" c="dimmed">
+                <Text size="xs" c="#888">
                   {getWeight(item.name)}
                 </Text>
               </Group>
               <Text size="sm" fw={600} mt={6} c="#222">
-                ${item.price}
+                $ {item.price}
               </Text>
             </Box>
-            <Group gap={6} align="center" wrap="nowrap">
+            <Group gap={4} align="center" wrap="nowrap">
               <ActionIcon
                 variant="default"
                 size={28}
                 radius="md"
-                onClick={() => {
-                  if (item.quantity > 1) {
-                    dispatch({
-                      type: 'UPDATE_QTY',
-                      id: item.id,
-                      quantity: item.quantity - 1,
-                    });
-                  }
-                }}
-                styles={{
-                  root: {
-                    backgroundColor: '#F1F3F5',
-                    border: 'none',
-                    fontWeight: 700,
-                    color: '#555',
-                  },
-                }}
+                aria-label="Уменьшить количество"
+                onClick={() => handleDecrement(item.id, item.quantity)}
+                styles={{ root: { backgroundColor: '#F1F3F5', border: 'none', color: '#555' } }}
               >
-                −
+                <IconMinus size={14} />
               </ActionIcon>
               <Text w={20} ta="center" fw={600} size="sm">
                 {item.quantity}
@@ -86,23 +80,24 @@ export const CartPopup = () => {
                 variant="default"
                 size={28}
                 radius="md"
+                aria-label="Увеличить количество"
                 onClick={() =>
-                  dispatch({
-                    type: 'UPDATE_QTY',
-                    id: item.id,
-                    quantity: item.quantity + 1,
-                  })
+                  dispatch({ type: 'UPDATE_QTY', id: item.id, quantity: item.quantity + 1 })
                 }
-                styles={{
-                  root: {
-                    backgroundColor: '#F1F3F5',
-                    border: 'none',
-                    fontWeight: 700,
-                    color: '#555',
-                  },
-                }}
+                styles={{ root: { backgroundColor: '#F1F3F5', border: 'none', color: '#555' } }}
               >
-                +
+                <IconPlus size={14} />
+              </ActionIcon>
+              <ActionIcon
+                variant="subtle"
+                color="red"
+                size={28}
+                radius="md"
+                ml={4}
+                aria-label={`Удалить ${item.name}`}
+                onClick={() => dispatch({ type: 'REMOVE', id: item.id })}
+              >
+                <IconTrash size={16} />
               </ActionIcon>
             </Group>
           </Group>
@@ -116,7 +111,7 @@ export const CartPopup = () => {
           Total
         </Text>
         <Text fw={700} c="#222">
-          ${totalPrice}
+          $ {totalPrice}
         </Text>
       </Group>
     </Stack>

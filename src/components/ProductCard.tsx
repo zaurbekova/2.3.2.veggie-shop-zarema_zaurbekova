@@ -10,7 +10,7 @@ import {
   type NumberInputHandlers,
 } from '@mantine/core';
 import { useRef, useState } from 'react';
-import { IconShoppingCart } from '@tabler/icons-react';
+import { IconShoppingCart, IconMinus, IconPlus } from '@tabler/icons-react';
 import type { Product } from '../types';
 import { useCart } from '../context/CartContext';
 import { getWeight } from '../utils/weight';
@@ -31,127 +31,118 @@ export const ProductCard = ({ product }: Props) => {
 
   return (
     <Card
-      padding="lg"
-      radius="lg"
+      padding={0}
+      radius="xl"
       style={{
         background: 'white',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
         transition: 'transform 0.2s, box-shadow 0.2s',
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
+        overflow: 'hidden',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'translateY(-4px)';
-        e.currentTarget.style.boxShadow = '0 10px 24px rgba(0,0,0,0.10)';
+        e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.04)';
+        e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
       }}
     >
-      <Box
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '8px 0 24px',
-          minHeight: 180,
-        }}
-      >
+      <Box style={{ display: 'flex', justifyContent: 'center', padding: '32px 16px' }}>
         <Image
           src={product.image}
-          height={140}
-          width={140}
+          height={160}
           fit="contain"
           alt={product.name}
         />
       </Box>
 
-      <Group justify="space-between" align="center" mb="md" wrap="nowrap">
-        <Group gap={8} align="baseline" wrap="nowrap">
-          <Text fw={600} size="md" c="#222">
+      <Box p="lg" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        <Group gap="xs" align="baseline" mb="sm" wrap="nowrap">
+          <Text fw={600} size="md" c="#222" style={{ lineHeight: 1 }}>
             {product.name}
           </Text>
-          <Text size="xs" c="dimmed">
+          <Text size="sm" c="#888" style={{ lineHeight: 1 }}>
             {getWeight(product.name)}
           </Text>
         </Group>
 
-        <Group gap={6} align="center" wrap="nowrap">
-          <ActionIcon
-            variant="default"
-            size={28}
-            radius="md"
-            aria-label="Уменьшить количество"
-            onClick={() => handlersRef.current?.decrement()}
-            styles={{
-              root: {
-                backgroundColor: '#F1F3F5',
-                border: 'none',
-                fontWeight: 700,
-                fontSize: 16,
-                color: '#555',
-              },
-            }}
-          >
-            −
-          </ActionIcon>
-          <NumberInput
-            value={quantity}
-            onChange={(val) => setQuantity(Number(val) || 1)}
-            min={1}
-            max={99}
-            hideControls
-            handlersRef={handlersRef}
-            aria-label="Количество"
-            styles={{
-              input: {
-                width: 36,
-                textAlign: 'center',
-                border: 'none',
-                padding: 0,
-                fontWeight: 600,
-                backgroundColor: 'transparent',
-              },
-            }}
-          />
-          <ActionIcon
-            variant="default"
-            size={28}
-            radius="md"
-            aria-label="Увеличить количество"
-            onClick={() => handlersRef.current?.increment()}
-            styles={{
-              root: {
-                backgroundColor: '#F1F3F5',
-                border: 'none',
-                fontWeight: 700,
-                fontSize: 16,
-                color: '#555',
-              },
-            }}
-          >
-            +
-          </ActionIcon>
-        </Group>
-      </Group>
+        <Group justify="space-between" align="center" wrap="nowrap" mt="auto">
+          <Text fw={600} size="lg" c="#222" style={{ fontSize: 20 }}>
+            $ {product.price}
+          </Text>
 
-      <Group justify="space-between" align="center" wrap="nowrap" mt="auto">
-        <Text fw={700} size="lg" c="#222">
-          ${product.price}
-        </Text>
+          <Group gap={8} align="center" wrap="nowrap">
+            <Group
+              gap={0}
+              style={{
+                border: '1px solid #E0E0E0',
+                borderRadius: 8,
+                overflow: 'hidden',
+                height: 32,
+              }}
+            >
+              <ActionIcon
+                variant="transparent"
+                color="gray"
+                size={32}
+                aria-label="Уменьшить количество"
+                onClick={() => handlersRef.current?.decrement()}
+              >
+                <IconMinus size={16} />
+              </ActionIcon>
+              <NumberInput
+                value={quantity}
+                onChange={(val) => setQuantity(Number(val) || 1)}
+                min={1}
+                max={99}
+                hideControls
+                handlersRef={handlersRef}
+                aria-label="Количество"
+                styles={{
+                  input: {
+                    width: 32,
+                    height: 32,
+                    textAlign: 'center',
+                    border: 'none',
+                    borderLeft: '1px solid #E0E0E0',
+                    borderRight: '1px solid #E0E0E0',
+                    padding: 0,
+                    fontWeight: 600,
+                    backgroundColor: 'transparent',
+                    fontSize: 14,
+                  },
+                }}
+              />
+              <ActionIcon
+                variant="transparent"
+                color="gray"
+                size={32}
+                aria-label="Увеличить количество"
+                onClick={() => handlersRef.current?.increment()}
+              >
+                <IconPlus size={16} />
+              </ActionIcon>
+            </Group>
+          </Group>
+        </Group>
+
         <Button
           radius="md"
-          size="sm"
+          size="md"
           color="green"
           variant="light"
           onClick={handleAdd}
-          rightSection={<IconShoppingCart size={16} />}
+          mt="md"
+          fullWidth
+          rightSection={<IconShoppingCart size={18} />}
         >
           Add to cart
         </Button>
-      </Group>
+      </Box>
     </Card>
   );
 };

@@ -1,4 +1,4 @@
-import { Group, Box, Badge, Button, Popover } from '@mantine/core';
+import { Group, Box, Badge, Button, Popover, Text } from '@mantine/core';
 import { IconShoppingCart } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useCart } from '../context/CartContext';
@@ -18,37 +18,15 @@ export const Header = () => {
         boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
       }}
     >
-      <Group
-        justify="space-between"
-        align="center"
-        px="xl"
-        py="md"
-        maw={1400}
-        mx="auto"
-      >
+      <Group justify="space-between" align="center" px="xl" py="md" maw={1400} mx="auto">
         <Group gap="xs" align="center">
-          <Box
-            style={{
-              fontSize: 22,
-              fontWeight: 700,
-              color: '#222',
-              letterSpacing: 0.2,
-            }}
-          >
-            Vegetable
-          </Box>
+          <Text style={{ fontSize: 24, fontWeight: 700, color: '#222' }}>Vegetable</Text>
           <Badge
-            size="lg"
+            size="xl"
             radius="sm"
             color="green"
             tt="uppercase"
-            styles={{
-              root: {
-                fontWeight: 700,
-                letterSpacing: 1,
-                padding: '0 10px',
-              },
-            }}
+            styles={{ root: { fontWeight: 700, letterSpacing: 1, padding: '0 12px' } }}
           >
             Shop
           </Badge>
@@ -58,7 +36,7 @@ export const Header = () => {
           opened={opened}
           onClose={close}
           position="bottom-end"
-          width={420}
+          width={440}
           withArrow={false}
           shadow="md"
           radius="lg"
@@ -73,8 +51,8 @@ export const Header = () => {
                 totalCount > 0 ? (
                   <Box
                     style={{
-                      width: 26,
-                      height: 26,
+                      width: 24,
+                      height: 24,
                       borderRadius: '50%',
                       backgroundColor: 'white',
                       color: '#54B44A',
@@ -89,7 +67,7 @@ export const Header = () => {
                   </Box>
                 ) : null
               }
-              rightSection={<IconShoppingCart size={18} />}
+              rightSection={<IconShoppingCart size={20} />}
             >
               Cart
             </Button>
