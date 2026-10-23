@@ -38,71 +38,75 @@ export const CartPopup = () => {
 
   return (
     <Stack gap="md">
-      {state.items.map((item, idx) => (
-        <Box key={item.id}>
-          {idx > 0 && <Divider mb="md" color="#F1F3F5" />}
-          <Group wrap="nowrap" align="center" gap="md">
-            <Image
-              src={item.image}
-              w={52}
-              h={52}
-              fit="contain"
-              alt={item.name}
-            />
-            <Box style={{ flex: 1, minWidth: 0 }}>
-              <Group gap={8} align="baseline" wrap="nowrap">
-                <Text fw={600} size="sm" c="#222" truncate>
-                  {item.name}
+      {state.items.map((item, idx) => {
+        const cleanName = item.name.split(' - ')[0];
+        
+        return (
+          <Box key={item.id}>
+            {idx > 0 && <Divider mb="md" color="#F1F3F5" />}
+            <Group wrap="nowrap" align="center" gap="md">
+              <Image
+                src={item.image}
+                w={52}
+                h={52}
+                fit="contain"
+                alt={cleanName}
+              />
+              <Box style={{ flex: 1, minWidth: 0 }}>
+                <Group gap={8} align="baseline" wrap="nowrap">
+                  <Text fw={600} size="sm" c="#222" truncate>
+                    {cleanName}
+                  </Text>
+                  <Text size="xs" c="#888">
+                    {getWeight(cleanName)}
+                  </Text>
+                </Group>
+                <Text size="sm" fw={600} mt={6} c="#222">
+                  $ {item.price}
                 </Text>
-                <Text size="xs" c="#888">
-                  {getWeight(item.name)}
+              </Box>
+              <Group gap={4} align="center" wrap="nowrap">
+                <ActionIcon
+                  variant="default"
+                  size={28}
+                  radius="md"
+                  aria-label="Уменьшить количество"
+                  onClick={() => handleDecrement(item.id, item.quantity)}
+                  styles={{ root: { backgroundColor: '#F1F3F5', border: 'none', color: '#555' } }}
+                >
+                  <IconMinus size={14} />
+                </ActionIcon>
+                <Text w={20} ta="center" fw={600} size="sm">
+                  {item.quantity}
                 </Text>
+                <ActionIcon
+                  variant="default"
+                  size={28}
+                  radius="md"
+                  aria-label="Увеличить количество"
+                  onClick={() =>
+                    dispatch({ type: 'UPDATE_QTY', id: item.id, quantity: item.quantity + 1 })
+                  }
+                  styles={{ root: { backgroundColor: '#F1F3F5', border: 'none', color: '#555' } }}
+                >
+                  <IconPlus size={14} />
+                </ActionIcon>
+                <ActionIcon
+                  variant="subtle"
+                  color="red"
+                  size={28}
+                  radius="md"
+                  ml={4}
+                  aria-label={`Удалить ${cleanName}`}
+                  onClick={() => dispatch({ type: 'REMOVE', id: item.id })}
+                >
+                  <IconTrash size={16} />
+                </ActionIcon>
               </Group>
-              <Text size="sm" fw={600} mt={6} c="#222">
-                $ {item.price}
-              </Text>
-            </Box>
-            <Group gap={4} align="center" wrap="nowrap">
-              <ActionIcon
-                variant="default"
-                size={28}
-                radius="md"
-                aria-label="Уменьшить количество"
-                onClick={() => handleDecrement(item.id, item.quantity)}
-                styles={{ root: { backgroundColor: '#F1F3F5', border: 'none', color: '#555' } }}
-              >
-                <IconMinus size={14} />
-              </ActionIcon>
-              <Text w={20} ta="center" fw={600} size="sm">
-                {item.quantity}
-              </Text>
-              <ActionIcon
-                variant="default"
-                size={28}
-                radius="md"
-                aria-label="Увеличить количество"
-                onClick={() =>
-                  dispatch({ type: 'UPDATE_QTY', id: item.id, quantity: item.quantity + 1 })
-                }
-                styles={{ root: { backgroundColor: '#F1F3F5', border: 'none', color: '#555' } }}
-              >
-                <IconPlus size={14} />
-              </ActionIcon>
-              <ActionIcon
-                variant="subtle"
-                color="red"
-                size={28}
-                radius="md"
-                ml={4}
-                aria-label={`Удалить ${item.name}`}
-                onClick={() => dispatch({ type: 'REMOVE', id: item.id })}
-              >
-                <IconTrash size={16} />
-              </ActionIcon>
             </Group>
-          </Group>
-        </Box>
-      ))}
+          </Box>
+        );
+      })}
 
       <Divider color="#F1F3F5" />
 
